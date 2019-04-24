@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>上传文件</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<body>
+队伍详情
+<table border="1">
+
+
+        <tr>
+            <th>组ID</th>
+            <th>课程名称</th>
+            <th>组长</th>
+            <th>组名称</th>
+            <th>成员1</th>
+            <th>成员2</th>
+            <th>成员3</th>
+            <th>成员4</th>
+
+        </tr>
+         {% for i in rlt %}
+                <tr>
+
+                <td>{{ i.group_id }}</td>
+                <td>{{ i.group_courid.cour_name}}</td>
+                <td>{{ i.group_leader.stu_name}}</td>
+                <td>{{ i.group_name }}</td>
+                <td>{{ i.group_member1.stu_name }}</td>
+                <td>{{ i.group_member2.stu_name}}</td>
+                <td>{{ i.group_member3.stu_name }}</td>
+                <td>{{ i.group_member4.stu_name }}</td>
+
+
+                </td><br>
+                </tr>
+            {% endfor %}
+
+
+    </table>
+
+<div>
+        <h1>文件上传模块</h1>
+        <label for="exampleInputFile">附件上传</label>
+        <input type="file" name="file" id="file_upload">
+        <button type="button" onclick="FileUpload()">开始上传</button>
+
+    </div>
+    <hr>
+    <button id="show_File1">显示上传后的文件名字</button>
+    <div id="show_file">
+
+    </div>
+
+    <script>
+        function FileUpload(){
+            var form_data=new FormData();
+            var file_info = $('#file_upload')[0].files[0];
+            form_data.append('file',file_info);
+
+            $.ajax({
+                url:'/file_post/',
+                type:'POST',
+                data:form_data,
+                processData:false,
+                contentType:false,
+                success:function (data) {
+                    if(data==='yes'){
+                        alert('文件上传成功');
+                    }else{
+                        alert('文件上传失败');
+                    }
+
+                }
+
+            });
+        };
+
+          $('#show_File1').on('click',function () {
+            $('#show_file').html('');
+            $.ajax({
+                   url:"/file_down/",
+                   type:"POST",
+                   data:{
+
+                   },
+                   success:function (data) {
+                       console.log(data);
+                       var urls = '../media/';
+                       $.each(data,function (i,item){
+                           console.log(item);
+                           //console.log(item['fileName']);
+                           var idds = urls + item[0];
+                           console.log(idds);
+                           var usrname=item[1];
+                           var uptime=item[2];
+                           var url1 = '<a href="'+idds+'" download="test">'+item[0]+'</a>&nbsp&nbsp&nbsp<h5>上传用户：'+usrname+'</h5>'+'</a><h5>上传时间：'+uptime+'</h5><br/>';
+                           $('#show_file').append(url1);
+                       })
+                   },
+                   error:function (e) {
+                       alert('请求未成功！');
+                   },
+
+               })
+
+
+        })
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>注册</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<body>
+<a href="/login-post">我已注册，直接登录</a><br>
+学号<input type="text" id="r1" name="id"><br>
+姓名<input type="text" id="r2" name="name"><br>
+密码<input type="text" id="r3" name="id"><br>
+性别<input type="text" id="r4" name="id"><br>
+学院<input type="text" id="r5" name="id"><br>
+是否爱合作<select id="r6">
+    <option value="1">是</option>
+    <option value="0">否</option>
+</select>
+是否爱钻研<select id="r7">
+    <option value="1">是</option>
+    <option value="0">否</option>
+</select>
+是否爱实践<select id="r8">
+    <option value="1">是</option>
+    <option value="0">否</option>
+</select>
+是否外语好<select id="r9">
+    <option value="1">是</option>
+    <option value="0">否</option>
+</select>
+是否写作能力强<select id="r10">
+    <option value="1">是</option>
+    <option value="0">否</option>
+</select>
+是否交流能力强<select id="r11">
+    <option value="1">是</option>
+    <option value="0">否</option>
+</select>
+<button  type="submit" id="register" >注册</button>
+<script>//注册函数，ajax
+    $(document).ready(function(){
+        $("#register").on('click',function(){
+            var idq=$('#r1').val();
+            var nameq=$('#r2').val();
+            var passwordq=$('#r3').val();
+            var genderq=$('#r4').val();
+            var collegeq=$('#r5').val();
+            var label1q=$('#r6').val();
+            var label2q=$('#r7').val();
+            var label3q=$('#r8').val();
+            var label4q=$('#r9').val();
+            var label5q=$('#r10').val();
+            var label6q=$('#r11').val();
+		    $.ajax({
+		        url:"/register/",
+		        type:"POST",
+		        data:{
+		            idq:idq,
+		            nameq:nameq,
+		            passwordq:passwordq,
+		            genderq:genderq,
+		            collegeq:collegeq,
+		            label1q:label1q,
+		            label2q:label2q,
+		            label3q:label3q,
+		            label4q:label4q,
+		            label5q:label5q,
+		            label6q:label6q
+		        },
+		        success:function(data){
+
+
+                    if(data==="001"){
+                        alert("该学号已注册");
+                   }
+                   else{
+                        alert('注册成功！');
+                   }
+                    location.reload(true);
+		        },
+		        error:function (e) {
+                       alert('请求未成功！');
+                 },
+		    });
+        });
+    });
+    </script>
+</body>
+</html>

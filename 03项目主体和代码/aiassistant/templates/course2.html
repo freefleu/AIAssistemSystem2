@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>全部课程</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<body>
+
+<script>  //将选课按钮那一行的课程id发给后台，get方法
+        function select(obj) {
+            var $td = $(obj).parents('tr').children('td');
+		    var id = $td.eq(0).text();
+		    //alert(id)
+		     // 创建Form
+            var form = $('<form></form>');
+            // 设置属性
+            form.attr('method', 'get');
+            // 创建Input
+            var my_input = $('<input  name="course_id" type="hidden" />');
+            my_input.attr('value',  JSON.stringify(id));
+            // 附加到Formd
+            form.append(my_input);
+            $(document.body).append(form);
+            // 提交表单
+            form.submit();
+	  }
+        </script>
+
+<script>  //将退课按钮那一行的课程id发给后台，get方法
+        function drop(obj) {
+            var $td = $(obj).parents('tr').children('td');
+		    var id = $td.eq(0).text();
+		    //alert(id)
+		     // 创建Form
+            var form = $('<form></form>');
+            // 设置属性
+            form.attr('method', 'get');
+            // 创建Input
+            var my_input = $('<input  name="course_id2" type="hidden" />');
+            my_input.attr('value',  JSON.stringify(id));
+            // 附加到Formd
+            form.append(my_input);
+            $(document.body).append(form);
+            // 提交表单
+            form.submit();
+	  }
+        </script>
+
+<B>已选课程</B>
+    <br>
+    <table border="1">
+        <!--<form action="" method="post">-->
+            <!--{% csrf_token %}-->
+        <tr>
+            <th>课程编号</th>
+            <th>课程名称</th>
+            <th>教师</th>
+            <th>学时</th>
+            <th>学分</th>
+            <th>上课时间/地点</th>
+            <th>开课学院</th>
+            <th>选课人数</th>
+            <th>课程历史评分</th>
+            <th>学生平均分</th>
+            <th>挂科率</th>
+        </tr>
+
+            {% for i in rlt %}
+                <tr>
+
+                <td>{{ i.cour_id }}</td>
+                <td>{{ i.cour_name }}</td>
+                <td>{{ i.cour_teacher }}</td>
+                <td>{{ i.cour_hour }}</td>
+                <td>{{ i.cour_credit }}</td>
+                <td>{{ i.cour_timeplace }}</td>
+                <td>{{ i.cour_college }}</td>
+                <td>{{ i.cour_stunum }}</td>
+                <td>{{ i.cour_score }}</td>
+                <td>{{ i.cour_avescore }}</td>
+                <td>{{ i.cour_failrate }}
+                    <!--<input type="hidden" name="course_id" value=course_id>-->
+                <button  type="button"  onclick="drop(this)">退课</button>
+
+                </td><br>
+                </tr>
+            {% endfor %}
+           <!--</form>-->
+
+    </table>
+
+    <br>
+<br>
+<B>可选课程</B>
+<table border="1">
+        <!--<form action="" method="post">-->
+            <!--{% csrf_token %}-->
+        <tr>
+            <th>课程编号</th>
+            <th>课程名称</th>
+            <th>教师</th>
+            <th>学时</th>
+            <th>学分</th>
+            <th>上课时间/地点</th>
+            <th>开课学院</th>
+            <th>选课人数</th>
+            <th>课程历史评分</th>
+            <th>学生平均分</th>
+            <th>挂科率</th>
+        </tr>
+
+            {% for i in rlt2 %}
+                <tr>
+
+                <td>{{ i.cour_id }}</td>
+                <td>{{ i.cour_name }}</td>
+                <td>{{ i.cour_teacher }}</td>
+                <td>{{ i.cour_hour }}</td>
+                <td>{{ i.cour_credit }}</td>
+                <td>{{ i.cour_timeplace }}</td>
+                <td>{{ i.cour_college }}</td>
+                <td>{{ i.cour_stunum }}</td>
+                <td>{{ i.cour_score }}</td>
+                <td>{{ i.cour_avescore }}</td>
+                <td>{{ i.cour_failrate }}
+
+              <!-- <button  type="button" id="select" onclick="select(this)">选课</button>-->
+                    <button  type="submit"  onclick="select(this)" >选课</button>
+
+                </td><br>
+                </tr>
+            {% endfor %}
+           <!--</form>-->
+
+    </table>
+</body>
+</html>
