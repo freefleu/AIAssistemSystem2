@@ -1,0 +1,36 @@
+登录页面，往路由/login-post发POST表单，变量名，id，表示学号；password，表示密码
+
+注册页面，往路由/register发POST表单，变量名，idq，表示学号；nameq,姓名；passwordq,密码；genderq,性别；collegeq,学院；label1q,标签1；label2q,标签2；label3q,标签3；label4q,标签4；label5q,标签5；label6q,标签6；
+
+课程页面，后台往vue返回json对象，rlt：已选课程；rlt2：可选课程
+每个课程属性包括： cour_id，cour_name， cour_teacher，cour_timeplace，cour_college ，cour_stunum，cour_score， cour_avescore， cour_failrate
+课程页面，选课功能，往/course发POST表单，变量名，course_id123，表示课程id
+课程页面，退课功能，往/course发POST表单，变量名，course_id456，表示课程id
+课程页面，组队功能，往/course发POST表单，变量名，course_id789，表示课程id（这三个功能改成按钮，不要用户复制粘贴课程id）
+课程页面，搜索功能，往/course发POST表单，变量名，sea，表示用户输入到搜索框的内容。
+    搜索结果展示到页面/result，后台往vue返回json对象，rlt：已选课程；rlt2：可选课程
+
+某课程的全部队伍页面，后台往vue返回json对象，rlt：该课程的全部队伍
+每个队伍属性包括：group_id，组id；group_courid，课程id；group_leader，组长；group_name，队伍名称； group_member1， 成员1；group_member2，成员2； group_member3，成员3； group_member4成员4
+某课程的全部队伍页面，组队功能，往/group-before发POST表单，变量名，group_id，表示课程id；group_position，值为1，2，3，4，分别表示四个成员位置
+某课程的全部队伍页面，创建新队伍功能，往/group-before发POST表单，变量名，new_name，表示新队伍的队伍名称
+
+我的全部队伍页面，后台往vue返回json对象，rlt：登录用户加入的全部队伍。每个队伍属性包括：group_id，组id；group_courid，课程id；group_leader，组长；group_name，队伍名称； group_member1， 成员1；group_member2，成员2； group_member3，成员3； group_member4成员4
+我的全部队伍页面，往/mygroup路由发送POST表单，跳转到组内提交作业页面/file-before，变量名：group_id，表示组id
+
+组内提交作业页面，后台往vue返回json对象，rlt：该组的具体信息
+包括group_id，组id；group_courid，课程id；group_leader，组长；group_name，队伍名称； group_member1， 成员1；group_member2，成员2； group_member3，成员3； group_member4成员4
+组内提交作业页面/file-before，提交作业功能，往路由/file_post传文件，POST方法
+组内提交作业页面/file-before，下载文件功能，后台往前端返回JsonResponse，变量名，dataitem
+
+
+
+
+
+
+
+
+
+
+
+
