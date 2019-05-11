@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/element-ui@2.8.2/lib/index.js"></script>
+
+    <script src="../static/axios.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+ <!-- import Vue before Element -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <title>首页</title>
+</head>
+<body>
+    <div style="background-color: #EBEBEB;min-height:1000px" id="app">
+        <div style="width:100%;height:10%;background-color:#20A0FF; overflow: hidden">
+            <span class="demonstration" style="float:left;padding-top:10px;color:white;margin-left:1%">
+                学习辅助系统 Your Personal Assistant
+            </span>
+
+            <div >
+                <span class="demonstration" style="float:right;padding-top:10px;margin-right:1%;color:white">
+                    欢迎 {{rlt0}}
+                </span>
+            </div>
+        </div>
+
+        <div class="menu1" style="float:left; width:30%;height:90%; margin-top:5px;">
+            <el-row class="tac" :gutter="10">
+              <el-col :span="12" :xs="4" :sm="100" :md="4" :lg="4">
+
+                <el-menu
+                  default-active="1"
+                  class="el-menu-vertical-demo"
+                  style="min-height:900px"
+                  @open="handleOpen"
+                  background-color="#fff"
+                  text-color="#000"
+                  >
+                  <el-submenu index="course">
+                    <template slot="title">
+                      <i class="el-icon-location"></i>
+                      <span>网上选课</span>
+                    </template>
+                  </el-submenu>
+
+                  <el-submenu index="group">
+                    <template slot="title">
+                      <i class="el-icon-location"></i>
+                      <span>组内提交作业</span>
+                    </template>
+                  </el-submenu>
+
+                    <el-submenu index="myinfo">
+                    <template slot="title">
+                      <i class="el-icon-location"></i>
+                      <span>个人信息</span>
+                    </template>
+                  </el-submenu>
+
+                </el-menu>
+              </el-col>
+            </el-row>
+        </div>
+        <div class="content" style="float:left;width:70%;height:90%;margin:0px auto;">
+
+        </div>
+
+
+
+    </div>
+</body>
+
+<script type="module">
+   var Main = {
+     methods: {
+        handleOpen(key, keyPath){
+                if(key=="course")
+                {
+                    window.location.href = "/course";
+                }else if(key=="group"){
+                    window.location.href = "/mygroup";
+                }else{
+                    window.location.href = "/myinfo";
+                }
+        }
+      }
+   }
+    var Ctor = Vue.extend(Main)
+   new Ctor().$mount('#app')
+</script>
+<style>
+#app {
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+}
+.el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+.el-icon-arrow-down {
+    font-size: 12px;
+  }
+.menu1:{
+    float:left;
+    width:30%;
+    height:100%;
+    margin-top:5px;
+  }
+.content:{
+    float:left;
+    width:70%;
+    height:100%;
+    margin:0px auto;
+  }
+</style>
+</html>

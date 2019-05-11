@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="../static/jquery.tablesorter.min.js"></script>
+    <title>全部课程</title>
+
+    <body>
+<div>输入搜索内容<input type="text" id="bbb" name="search">
+    <button  type="submit" id="search" >搜索</button>
+</div>
+
+<div>
+    点击表头可根据该表头对该列数据进行升序/降序排序（如点击“挂科率”）<br>
+    <B>已选课程</B>
+    <br>
+    <table border="1" id="myTable" class="sort-table">
+    <thead>
+        <tr>
+            <th>课程编号</th>
+            <th>课程名称</th>
+            <th>教师</th>
+            <th>上课时间/地点</th>
+            <th>开课学院</th>
+            <th>选课人数</th>
+            <th>课程历史评分</th>
+            <th>学生平均分</th>
+            <th>挂科率</th>
+        </tr>
+    </thead>
+        <tbody>
+         {% for i in rlt %}
+                <tr>
+
+                <td>{{ i.cour_id }}</td>
+                <td>{{ i.cour_name }}</td>
+                <td>{{ i.cour_teacher }}</td>
+                <td>{{ i.cour_timeplace }}</td>
+                <td>{{ i.cour_college }}</td>
+                <td>{{ i.cour_stunum }}</td>
+                <td>{{ i.cour_score }}</td>
+                <td>{{ i.cour_avescore }}</td>
+                <td>{{ i.cour_failrate }}
+
+                </td><br>
+                </tr>
+            {% endfor %}
+
+    </tbody>
+    </table>
+
+    <br>
+<br>
+<B>可选课程</B>
+    <br>
+<table border="2" id="myTable2" class="sort-table">
+<thead>
+        <tr>
+            <th>课程编号</th>
+            <th>课程名称</th>
+            <th>教师</th>
+            <th>上课时间/地点</th>
+            <th>开课学院</th>
+            <th>选课人数</th>
+            <th>课程历史评分</th>
+            <th>学生平均分</th>
+            <th>挂科率</th>
+        </tr>
+</thead>
+    <tbody>
+
+
+     {% for i in rlt2 %}
+                <tr>
+
+                <td>{{ i.cour_id }}</td>
+                <td>{{ i.cour_name }}</td>
+                <td>{{ i.cour_teacher }}</td>
+                <td>{{ i.cour_timeplace }}</td>
+                <td>{{ i.cour_college }}</td>
+                <td>{{ i.cour_stunum }}</td>
+                <td>{{ i.cour_score }}</td>
+                <td>{{ i.cour_avescore }}</td>
+                <td>{{ i.cour_failrate }}
+
+                </td><br>
+                </tr>
+            {% endfor %}
+    </tbody>
+
+
+    </table>
+</div>
+<div>
+    课程ID<input type="text" id="aaa" name="course_id"><br>
+    <button  type="submit" id="selects" >选课</button>
+    <button  type="submit" id="drop" >退课</button>
+    <button  type="submit" id="group" >组队</button>
+</div>
+
+ <script>//选课函数，ajax
+    $(document).ready(function(){
+        $("#selects").on('click',function(){
+
+		    var course_id123=$('#aaa').val();
+		    //alert(course_id123);
+		    $.ajax({
+		        url:"/course/",
+		        type:"POST",
+		        //dataType:"json",
+		        data:{
+		            course_id123:course_id123
+		        },
+		        success:function(data){
+                    location.reload(true);
+                    if(data==="001"){
+                        alert("您已选该课，不能重复选择");
+                    }else{
+                        alert('选课成功！');
+                    }
+		        },
+		        error:function (e) {
+                       alert('请求未成功！');
+                 },
+		    });
+        });
+    });
+
+    </script>
+    <script>//退课函数，ajax
+    $(document).ready(function(){
+        $("#drop").on('click',function(){
+
+		    var course_id456=$('#aaa').val();
+		    //alert(course_id456);
+		    $.ajax({
+		        url:"/course/",
+		        type:"POST",
+		        //dataType:"json",
+		        data:{
+		            course_id456:course_id456
+		        },
+		        success:function(data){
+                    location.reload(true);
+                    if(data==="001"){
+                        alert("您未选该课，不能退课");
+                    }else{
+                        alert('退课成功！');
+                    }
+		        },
+		        error:function (e) {
+                       alert('请求未成功！请核实是否已选这门课');
+                 },
+		    });
+        });
+    });
+
+    </script>
+     <script>//组队函数，ajax
+    $(document).ready(function(){
+        $("#group").on('click',function(){
+		    var course_id789=$('#aaa').val();
+		    $.ajax({
+		        url:"/course/",
+		        type:"POST",
+		        //dataType:"json",
+		        data:{
+		            course_id789:course_id789
+		        },
+		        success:function(data){
+                    if(data==="001"){
+                        alert("您未选该课，不能组队");
+                    }else{
+                         window.location.href = "/group-before/";
+                    }
+		        },
+		        error:function (e) {
+                      // alert('请求未成功！');
+                 },
+		    });
+        });
+    });
+
+    </script>
+<script>//搜索函数，ajax
+    $(document).ready(function(){
+        $("#search").on('click',function(){
+
+		    var sea=$('#bbb').val();
+		    //alert(course_id123);
+		    $.ajax({
+		        url:"/course/",
+		        type:"POST",
+		        //dataType:"json",
+		        data:{
+		            sea:sea
+		        },
+		        success:function(data){
+                    //location.reload(true);
+                    window.location.href = "/result/";
+                    //if(data==="000"){
+                     //   alert("进入POST");
+                    //}else{
+                    //    alert('退课成功！');
+                   // }
+		        },
+		        error:function (e) {
+                       alert('请求未成功！');
+                 },
+		    });
+        });
+    });
+
+    </script>
+<script>
+        $("#myTable").tablesorter();
+        $("#myTable2").tablesorter();
+</script>
+</body>
+</html>

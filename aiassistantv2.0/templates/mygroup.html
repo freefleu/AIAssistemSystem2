@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我的队伍</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<body>
+<div>
+    我加入的全部队伍
+    <table border="1">
+
+
+        <tr>
+            <th>组ID</th>
+            <th>课程名称</th>
+            <th>组长</th>
+            <th>组名称</th>
+            <th>成员1</th>
+            <th>成员2</th>
+            <th>成员3</th>
+            <th>成员4</th>
+
+        </tr>
+         {% for i in rlt %}
+                <tr>
+
+                <td>{{ i.group_id }}</td>
+                <td>{{ i.group_courid.cour_name}}</td>
+                <td>{{ i.group_leader.stu_name}}</td>
+                <td>{{ i.group_name }}</td>
+                <td>{{ i.group_member1.stu_name }}</td>
+                <td>{{ i.group_member2.stu_name}}</td>
+                <td>{{ i.group_member3.stu_name }}</td>
+                <td>{{ i.group_member4.stu_name }}</td>
+
+
+                </td><br>
+                </tr>
+            {% endfor %}
+
+
+    </table>
+
+</div>
+组ID<input type="text" id="group_id"><br>
+<button type="submit" id="upload"  >去上传文件</button><br>
+
+<script>//去上传文件函数，ajax
+    $(document).ready(function(){
+        $("#upload").on('click',function(){
+		    var group_id=$('#group_id').val();
+		    $.ajax({
+		        url:"/mygroup/",
+		        type:"POST",
+		        //dataType:"json",
+		        data:{
+		            group_id:group_id
+		        },
+		        success:function(data){
+                    if(data==="001"){
+                        alert("您不是该队成员，不能在该队上传文件");
+                    }else{
+                         window.location.href = "/file-before/";
+                    }
+		        },
+		        error:function (e) {
+                      // alert('请求未成功！');
+                 },
+		    });
+        });
+    });
+
+</script>
+
+</body>
+</html>
