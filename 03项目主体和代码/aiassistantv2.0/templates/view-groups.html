@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>组队</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<body>
+<div>
+    已有队伍
+    <table border="1">
+
+
+        <tr>
+            <th>组ID</th>
+            <th>课程名称</th>
+            <th>组长</th>
+            <th>组名称</th>
+            <th>成员1</th>
+            <th>成员2</th>
+            <th>成员3</th>
+            <th>成员4</th>
+
+        </tr>
+         {% for i in rlt %}
+                <tr>
+
+                <td>{{ i.group_id }}</td>
+                <td>{{ i.group_courid.cour_name}}</td>
+                <td>{{ i.group_leader.stu_name}}</td>
+                <td>{{ i.group_name }}</td>
+                    {% if i.group_member1.stu_name %}
+                        <td>{{ i.group_member1.stu_name }}</td>
+                    {% else %}
+                        <td><button type="submit" onclick="join(this)">加入该位置</button> </td>
+                    {% endif %}
+                    {% if i.group_member2.stu_name %}
+                        <td>{{ i.group_member2.stu_name }}</td>
+                    {% else %}
+                        <td><button type="submit" onclick="join(this)">加入该位置</button> </td>
+                    {% endif %}
+                    {% if i.group_member3.stu_name %}
+                        <td>{{ i.group_member3.stu_name }}</td>
+                    {% else %}
+                        <td><button type="submit" onclick="join(this)">加入该位置</button> </td>
+                    {% endif %}
+                    {% if i.group_member4.stu_name %}
+                        <td>{{ i.group_member4.stu_name }}</td>
+                    {% else %}
+                        <td><button type="submit" onclick="join(this)">加入该位置</button> </td>
+                    {% endif %}
+
+
+                <!--<td>{{ i.group_member2.stu_name}}</td>
+                <td>{{ i.group_member3.stu_name }}</td>
+                <td>{{ i.group_member4.stu_name }}</td>-->
+
+
+                </td><br>
+                </tr>
+            {% endfor %}
+
+
+    </table>
+
+</div>
+<!--组ID<input type="text" name="aaa" id="group_id"><br>
+成员位置：<select id="group_position">
+        <option value="1">成员1</option>
+        <option value="2">成员2</option>
+        <option value="3">成员3</option>
+        <option value="4">成员4</option>
+</select>
+<button type="submit" id="selects"  >加入</button><br>-->
+新队伍名称<input type="text" name="bbb" id="new_name"><br>
+<button type="submit" id="new_build">组建队伍</button>
+<br>
+
+<script>//加入队伍函数
+         $(document).ready(function(){
+             $("#selects").on('click',function (){
+                 var group_id = $('#group_id').val();
+                 var group_position = $('#group_position').val();
+               $.ajax({
+                   url:"/group-before/",
+                   type:"POST",
+                   data:{
+                       group_id:group_id,
+                       group_position:group_position
+                   },
+                   success:function (data) {
+                       location.reload(true);
+                       if(data==="001"){
+                        alert("每门课只能加入一个队伍");
+                    }else{
+                        alert('组队成功！');
+                    }
+                   },
+                   error:function (e) {
+                       alert('请求未成功！');
+                   },
+
+               })
+                });
+                })
+ </script>
+<script>
+    //创建新队伍函数
+    $(document).ready(function(){
+             $("#new_build").on('click',function (){
+
+                 var new_name = $('#new_name').val();
+                 //alert(new_name);
+               $.ajax({
+                   url:"/group-before/",
+                   type:"POST",
+                   data:{
+                       new_name:new_name,
+                   },
+                   success:function (data) {
+                       location.reload(true);
+                       if(data==="001"){
+                        alert("每门课只能加入一个队伍");
+                    }else{
+                        alert('创建队伍成功！');
+                    }
+                   },
+                   error:function (e) {
+                       alert('请求未成功！');
+                   },
+
+               })
+                });
+                })
+</script>
+
+<script>  //将加入按钮那一行的课程id发给后台，get方法
+        function join(obj) {
+            var $td = $(obj).parents('tr').children('td');
+		    var id = $td.eq(0).text();//队伍id
+		    //alert(id);
+		     // 创建Form
+            var form = $('<form></form>');
+            // 设置属性
+            form.attr('method', 'get');
+            // 创建Input
+            var my_input = $('<input  name="course_id123" type="hidden" />');
+            my_input.attr('value',  JSON.stringify(id));
+            // 附加到Formd
+            form.append(my_input);
+            $(document.body).append(form);
+            // 提交表单
+            form.submit();
+            alert("选课成功！");
+	  }
+        </script>
+
+</body>
+</html>

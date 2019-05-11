@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+	<script src="https://unpkg.com/element-ui@2.8.2/lib/index.js"></script>
+
+    <script src="../static/axios.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue/2.4.2/vue.min.js"></script>
+<script src="https://cdn.staticfile.org/vue-resource/1.5.1/vue-resource.min.js"></script>
+ <!-- import Vue before Element -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+  <!-- import JavaScript -->
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <title>全部课程</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="../static/jquery.tablesorter.min.js"></script>
+<body>
+
+
+
+<script>  //将选课按钮那一行的课程id发给后台，get方法
+        function select(obj) {
+            var $td = $(obj).parents('tr').children('td');
+		    var id = $td.eq(0).text();
+		    //alert(id);
+		     // 创建Form
+            var form = $('<form></form>');
+            // 设置属性
+            form.attr('method', 'get');
+            // 创建Input
+            var my_input = $('<input  name="course_id123" type="hidden" />');
+            my_input.attr('value',  JSON.stringify(id));
+            // 附加到Formd
+            form.append(my_input);
+            $(document.body).append(form);
+            // 提交表单
+            form.submit();
+            alert("选课成功！");
+	  }
+        </script>
+
+<script>  //将退课按钮那一行的课程id发给后台，get方法
+        function drop(obj) {
+            var $td = $(obj).parents('tr').children('td');
+		    var id = $td.eq(0).text();
+		    //alert(id)
+		     // 创建Form
+            var form = $('<form></form>');
+            // 设置属性
+            form.attr('method', 'get');
+            // 创建Input
+            var my_input = $('<input  name="course_id456" type="hidden" />');
+            my_input.attr('value',  JSON.stringify(id));
+            // 附加到Formd
+            form.append(my_input);
+            $(document.body).append(form);
+            // 提交表单
+            form.submit();
+            alert("退课成功！");
+	  }
+        </script>
+
+<script>  //将组队按钮那一行的课程id发给后台，get方法
+        function group(obj) {
+            var $td = $(obj).parents('tr').children('td');
+		    var id = $td.eq(0).text();
+		    //alert(id);
+		     // 创建Form
+            var form = $('<form></form>');
+            // 设置属性
+            form.attr('method', 'get');
+            // 创建Input
+            var my_input = $('<input  name="course_id789" type="hidden" />');
+            my_input.attr('value',  JSON.stringify(id));
+            // 附加到Formd
+            form.append(my_input);
+            $(document.body).append(form);
+            // 提交表单
+            form.submit();
+            //window.location.href = "/group-before/";
+	  }
+        </script>
+
+
+
+<div style="background-color: #EBEBEB;min-height:1000px" id="app">
+    <div style="width:100%;height:10%;background-color:#20A0FF; overflow: hidden">
+            <span class="demonstration" style="float:left;padding-top:10px;color:white;margin-left:1%">
+                学习辅助系统 Your Personal Assistant
+            </span>
+
+            <div >
+                <span class="demonstration" style="float:right;padding-top:10px;margin-right:1%;color:white">
+                    欢迎 {{rlt0}}
+                </span>
+            </div>
+    </div>
+
+     <div class="menu1" style="float:left; width:5%;height:90%; margin-top:5px;">
+            <el-row class="tac" :gutter="10">
+              <el-col :span="12" :xs="4" :sm="100" :md="4" :lg="4">
+
+                <el-menu
+                  default-active="1"
+                  class="el-menu-vertical-demo"
+                  style="min-height:900px"
+                  @open="handleOpen"
+                  background-color="#fff"
+                  text-color="#000"
+                  >
+                  <el-submenu index="course">
+                    <template slot="title">
+                      <i class="el-icon-location"></i>
+                      <span>网上选课</span>
+                    </template>
+                  </el-submenu>
+
+                  <el-submenu index="group">
+                    <template slot="title">
+                      <i class="el-icon-location"></i>
+                      <span>组内提交作业</span>
+                    </template>
+                  </el-submenu>
+
+                    <el-submenu index="myinfo">
+                    <template slot="title">
+                      <i class="el-icon-location"></i>
+                      <span>个人信息</span>
+                    </template>
+                  </el-submenu>
+
+                </el-menu>
+              </el-col>
+            </el-row>
+     </div>
+
+    <div style="float:left; width:95%;height:90%; margin-top:50px;" align="center">
+        <div >
+            输入搜索内容<input type="text" id="bbb" name="search">
+            <button  type="submit" id="search" >搜索</button>
+            <br><br>
+        </div>
+        <div>
+            <div>
+                <br>
+                <B>已选课程</B>
+                <br>
+                    <!--<a href="#" id="score">按课程历史评分排序</a>
+                    <a href="#" id="avescore">按学生平均分排序</a>
+                     <a href="#" id="failrate">按挂科率排序</a>-->
+                <table border="1"  class="tablesorter" id="myTable1">
+                <thead>
+                    <tr>
+                        <th>课程编号</th>
+                        <th>课程名称</th>
+                        <th>教师</th>
+                        <th>上课时间/地点</th>
+                        <th>开课学院</th>
+                        <th>选课人数</th>
+                        <th>课程历史评分</th>
+                        <th>学生平均分</th>
+                        <th>挂科率</th>
+                        <th>退课操作</th>
+                        <th>组队操作</th>
+                    </tr>
+                </thead>
+                    <tbody>
+
+                        {% for i in rlt %}
+                            <tr>
+
+                            <td>{{ i.cour_id }}</td>
+                            <td>{{ i.cour_name }}</td>
+                            <td>{{ i.cour_teacher }}</td>
+                            <td>{{ i.cour_timeplace }}</td>
+                            <td>{{ i.cour_college }}</td>
+                            <td>{{ i.cour_stunum }}</td>
+                            <td>{{ i.cour_score }}</td>
+                            <td>{{ i.cour_avescore }}</td>
+                                <td>{{ i.cour_failrate }}</td>
+                                <!--<input type="hidden" name="course_id" value=course_id>-->
+                                <td><button  type="submit"  onclick="drop(this)">退课</button></td>
+                             <td><button  type="submit"  onclick="group(this)">组队</button>
+
+                            </td><br>
+                            </tr>
+                        {% endfor %}
+                       <!--</form>-->
+                    </tbody>
+                </table>
+            </div>
+                <br>
+            <div><br>
+                <B>可选课程</B>
+                <br>
+                    <!--<a href="#" id="score2">按课程历史评分排序</a>
+                    <a href="#" id="avescore2">按学生平均分排序</a>
+                     <a href="#" id="failrate2">按挂科率排序</a>-->
+                <table border="2"  class="tablesorter" id="aaa">
+            <thead>
+                    <tr>
+                        <th>课程编号</th>
+                        <th>课程名称</th>
+                        <th>教师</th>
+                        <th>上课时间/地点</th>
+                        <th>开课学院</th>
+                        <th>选课人数</th>
+                        <th>课程历史评分</th>
+                        <th>学生平均分</th>
+                        <th>挂科率</th>
+                        <th>选课操作</th>
+                    </tr>
+            </thead>
+                <tbody>
+
+                        {% for i in rlt2 %}
+                            <tr>
+
+                            <td>{{ i.cour_id }}</td>
+                            <td>{{ i.cour_name }}</td>
+                            <td>{{ i.cour_teacher }}</td>
+                            <td>{{ i.cour_timeplace }}</td>
+                            <td>{{ i.cour_college }}</td>
+                            <td>{{ i.cour_stunum }}</td>
+                            <td>{{ i.cour_score }}</td>
+                            <td>{{ i.cour_avescore }}</td>
+                                <td>{{ i.cour_failrate }}</td>
+
+                          <!-- <button  type="button" id="select" onclick="select(this)">选课</button>-->
+                                <td><button  type="submit"  onclick="select(this)" >选课</button>
+
+                            </td><br>
+                            </tr>
+                        {% endfor %}
+                       <!--</form>-->
+                </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="../static/jquery.tablesorter.min.js"></script>
+<script>
+$(document).ready(function(){
+     $("#myTable1").tablesorter();
+      $("#aaa").tablesorter();
+      });
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#score").on('click',function(){
+        $("#myTable1").tablesorter();
+        var t=$("thead tr").children();
+        $(t[6]).trigger("click");
+    });
+});
+$(document).ready(function(){
+    $("#avescore").on('click',function(){
+        $("#myTable1").tablesorter();
+        var t=$("thead tr").children();
+        $(t[7]).trigger("click");
+    });
+});
+
+$(document).ready(function(){
+    $("#failrate").on('click',function(){
+        //alert("排序");
+        $("#myTable1").tablesorter();
+        var t=$("thead tr").children();
+        $(t[8]).trigger("click");
+    });
+});
+</script>
+<script>
+$(document).ready(function(){
+    $("#score2").on('click',function(){
+        //alert("aefrfd");
+        $("#aaa").tablesorter();
+        var t=$("thead tr").children();
+        $(t[6]).trigger("click");
+    });
+});
+$(document).ready(function(){
+    $("#avescore2").on('click',function(){
+        $("#aaa").tablesorter();
+        var t=$("thead tr").children();
+        $(t[7]).trigger("click");
+    });
+});
+
+$(document).ready(function(){
+    $("#failrate2").on('click',function(){
+        $("#aaa").tablesorter();
+        var t=$("thead tr").children();
+        $(t[8]).trigger("click");
+    });
+});
+</script>
+<script type="module">
+   var Main = {
+     methods: {
+        handleOpen(key, keyPath){
+                if(key=="course")
+                {
+                    window.location.href = "/course";
+                }else if(key=="group"){
+                    window.location.href = "/mygroup";
+                }else{
+                    window.location.href = "/myinfo";
+                }
+        }
+      }
+   }
+    var Ctor = Vue.extend(Main)
+   new Ctor().$mount('#app')
+</script>
+<script>//搜索函数，ajax
+    $(document).ready(function(){
+        $("#search").on('click',function(){
+
+		    var sea=$('#bbb').val();
+		    //alert(course_id123);
+		    $.ajax({
+		        url:"/course/",
+		        type:"POST",
+		        //dataType:"json",
+		        data:{
+		            sea:sea
+		        },
+		        success:function(data){
+                    //location.reload(true);
+                    window.location.href = "/result/";
+                    //if(data==="000"){
+                     //   alert("进入POST");
+                    //}else{
+                    //    alert('退课成功！');
+                   // }
+		        },
+		        error:function (e) {
+                       alert('请求未成功！');
+                 },
+		    });
+        });
+    });
+
+    </script>
+
+<style>
+#app {
+  font-family: Helvetica, sans-serif;
+  text-align: center;
+}
+.el-dropdown-link {
+    cursor: pointer;
+    color: #409EFF;
+  }
+.el-icon-arrow-down {
+    font-size: 12px;
+  }
+
+</style>
+</body>
+</html>
